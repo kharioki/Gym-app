@@ -1,23 +1,37 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-import { Paper, Tabs, Tab } from '@material-ui/core';
+import { Paper, Tabs, Tab, withWidth } from '@material-ui/core';
+import { withContext } from '../../context';
 
-export default ({ muscles, category, onSelect }) => {
-  const index = category
-    ? muscles.findIndex(group => group === category) + 1
-    : 0;
+class Footer extends Component {
 
-  const onIndexSelect = (e, index) => {
-    onSelect(index === 0 ? '' : muscles[index - 1]);
+  onIndexSelect = (e, index) => {
+    const { onCategorySelect, muscles } = this.props
+
+    onCategorySelect(index === 0 ? '' : muscles[index - 1]);
   };
-  return (
-    <Paper>
+
+  getIndex = () =>  {
+    const { category, muscles } = this.props
+
+    return category
+      ? muscles.findIndex(group => group === category) + 1
+      : 0
+  };
+
+  render() {
+    const { width, muscles } = this.props;
+
+    return (
+      <Paper>
       <Tabs
-        value={index}
-        onChange={onIndexSelect}
-        indicatorColor="primary"
-        textColor="primary"
-        centered
+        value={this.getIndex()}
+        onChange={this.onIndexSelect}
+        indicatorColor="secondary"
+        textColor="secondary"
+        centered = {width !== 'xs'}
+        scrollable= {width === 'xs'}
+        scrollButtons="on"
       >
         <Tab label="ALL" />
         {muscles.map(group => (
@@ -25,5 +39,9 @@ export default ({ muscles, category, onSelect }) => {
         ))}
       </Tabs>
     </Paper>
-  );
-};
+    )
+  }
+}
+
+export default withContext(withWidth()(Footer))
+

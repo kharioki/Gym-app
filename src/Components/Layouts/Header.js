@@ -1,16 +1,23 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 
-import CreateDialog from '../Exercises/Dialogs/Create';
+import CreateDialog from '../Exercises/Dialogs';
 
-export default ({ categories }) => (
+const styles = {
+  flex: {
+    flex: 1
+  }
+}
+
+export default withStyles(styles) (({ classes, muscles, onExerciseCreate }) => (
   <AppBar position="static">
     <Toolbar>
-      <Typography variant="h6" color="inherit" style={{ flex: 1 }}>
+      <Typography variant="h6" color="inherit" className={classes.flex}>
         Exercise Database
       </Typography>
 
-      <CreateDialog categories={categories} />
+      <CreateDialog />
     </Toolbar>
   </AppBar>
-);
+));
